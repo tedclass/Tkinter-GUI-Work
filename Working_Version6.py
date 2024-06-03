@@ -1,7 +1,7 @@
 import tkinter#importing the library  
 from tkinter import ttk 
 from tkinter import filedialog ,messagebox
-import subprocess 
+from tkcalendar import Calendar
 import pandas as pd
 
 
@@ -13,6 +13,9 @@ actuarial_file_path = tkinter.StringVar()
 # Variables to track checkbox states
 final_check_var = tkinter.BooleanVar()
 final_check_tick_var = tkinter.BooleanVar()
+
+def print_date():#Place holder function to hold the date
+    print(cal.get_date())
 
 def get_transactional_file():
     """Opens a file dialog for selecting the transactional file and returns the path.
@@ -76,8 +79,12 @@ def update_button_state():
     else:
         button.config(state=tkinter.DISABLED)
         
+
+
+        
 # Function to trigger the script to run LC calculations
 def run_calculations():
+    select_date()
     if final_check_var.get() and final_check_tick_var.get():
         # Placeholder for the actual LC calculations, would now call in the script pass on the file paths, blah blah 
         messagebox.showinfo("Success", "Running LC Calculations...")
@@ -119,6 +126,14 @@ actuarial_file_button.grid(row=4, column=1)
 # Label to show the selected actuarial file path
 actuarial_file_label = tkinter.Label(file_paths_frame, textvariable=actuarial_file_path)
 actuarial_file_label.grid(row=7, column=0, columnspan=2)
+
+#The date selecting calendar 
+cal = Calendar(window, selectmode="day", date_pattern="yyyy-MM-dd")
+cal.pack()
+button = tkinter.Button(window, text="Select Quater", command=print_date,bg='red', fg='black')
+button.pack()
+
+
 
 for child in file_paths_frame.winfo_children():
     child.grid_configure(padx=20, pady=20)
@@ -167,7 +182,7 @@ for i, var_name in enumerate(variable_names):
     variable_entries[var_name] = entry
 
 # Collect variable values button (for demonstration)
-collect_button = tkinter.Button(risk_adjustment_frame, text="Collect Variable Values", command=get_variable_values)
+collect_button = tkinter.Button(risk_adjustment_frame, text="Collect Variable Values", command=get_variable_values, bg='yellow', fg='black')
 collect_button.grid(row=len(variable_names), column=1, pady=10)
  ####################################################################################################################################   
 
